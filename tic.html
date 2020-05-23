@@ -1,0 +1,127 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fight-Club Tic Tac Toe</title>
+    <style>
+        body{
+            display:flex;
+            align-items: center;
+            justify-content: center;
+             background-color: teal;
+        }
+        .v{
+            margin:0 20px;
+        }
+        .row{
+            display: flex;
+        }
+       .row-item{
+            padding: 20px;
+            border: 2px solid #86af49;
+            border-radius: 4px;
+            cursor: pointer;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            width: 50px;
+            align-items: center;
+            background-color:#b5e7a0;
+            color:#4f3222;
+            font-size:20px;
+            font-weight: bolder;
+        }
+        #container {
+            position: relative;
+            right: 0;
+            /* left: 0; */
+        }
+    </style>
+</head>
+<body>
+    <div id="durden" class="v">
+        <h1 style="font-family: Georgia, 'Times New Roman', Times, serif;">Tyler </h1>
+        <img src="https://bamfstyle.files.wordpress.com/2016/05/fctyler-main.jpg" width="100px" height="auto" />
+    </div>
+    <div id='container'>
+    </div>
+   
+    <div id="tyler" class="v">
+        <h1 style="font-family: Georgia, 'Times New Roman', Times, serif;">Durden </h1>
+        <img src="https://cdn.shopify.com/s/files/1/1055/0912/files/40555UNILAD-imageoptim-edward-norton-fight-club_1024x1024.jpg?v=1500893248"width="100px" height="96.0625px;" />
+    </div>
+    
+    <script>
+        var gameOver = false;
+        var lastValue = "";
+        var board=[["","",""],["","",""],["","",""]];
+        var container=document.getElementById("container"); 
+        for(var r=0;r<3;r++)
+        {
+            container.insertAdjacentHTML("beforeend",`<div id="${r}" class="row"></div>`)
+        
+         for(var c=0;c<3;c++)
+          {
+            var thisRow=document.getElementById(r);
+            thisRow.insertAdjacentHTML("beforeend",`<div id="${r}-${c}" onClick="markBox(event)" class="row-item"></div>`)
+          }
+        }
+        function markBox(event){
+            if(!gameOver){
+                var box = event.target;
+                var newValue =  "";
+                switch(lastValue){
+                    case "":
+                        newValue = "X";
+                        break;
+                    case "X":
+                        newValue = "O";
+                        break;
+                    case "O":
+                        newValue = "X";
+                        break;
+                }
+            }
+            box.textContent = newValue;
+            lastValue = newValue;
+            var i = box.id.split('-');
+            r = i[0];
+            c = i[1];
+            board[r][c] = newValue;
+           
+            // check if game is over. and set gameOver = true; and display alert which player won.
+            var winner = null;
+              for(var i=0;i<3;i++)
+               {
+                   winner =(board[i][0] && board[i][0]===board[i][1] && board[i][0] === board[i][2]) ? board[i][0] : null;
+                   if(winner){
+                       break;
+                   } else {
+                    winner=(board[0][i] && board[0][i]===board[1][i] && board[0][i] === board[2][i]) ? board[0][i] : null;
+                    if(winner){
+                        break;
+                    }
+                   }
+                   
+               }
+               if(!winner)
+                winner=(board[0][0]&&board[0][0]===board[1][1]&&board[2][2]===board[0][0])?board[0][0]:null;
+                if(!winner)
+                 {
+                    winner=(board[0][2]&&board[0][2]===board[1][1]&&board[2][0]===board[1][1])?board[0][2]:null; 
+                 }
+                
+               if(winner){
+                   gameOver = true;
+                   setTimeout(function(){
+                       if(winner ==="X")
+                       var b="Tyler";
+                       else 
+                         var b="Durden";
+                    alert(`${b} has won the match! The things you own , end up Owning you!`);
+                   }, 200);
+               }
+        }
+    </script>
+</body>
+</html>
